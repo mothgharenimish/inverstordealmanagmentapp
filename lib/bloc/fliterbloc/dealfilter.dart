@@ -5,37 +5,37 @@ import 'package:investorapp/screen/deal/dealdata.dart';
 class DealFilter extends Cubit<List<DealModel>> {
   DealFilter() : super(mockDeals);
 
-  final List<DealModel> allDeals = mockDeals;
+  List<DealModel> deals = mockDeals;
 
-  void filterDeals({
-    required String risk,
-    required String industry,
-    required double minRoi,
-    required double maxRoi,
-  }) {
-    final filtered = allDeals.where((deal) {
-      final riskMatch = risk == "All" || deal.risk == risk;
-      final industryMatch =
-          industry == "All" || deal.industry == industry;
-      final roiMatch = deal.roi >= minRoi && deal.roi <= maxRoi;
+  void filterDeals(String risk, String industry, double minRoi, double maxRoi) {
+    List<DealModel> filteredDeals = [];
 
-      return riskMatch && industryMatch && roiMatch;
-    }).toList();
+    for (var deal in deals) {
+      bool riskMatch = risk == "All" || deal.risk == risk;
+      bool industryMatch = industry == "All" || deal.industry == industry;
+      bool roiMatch = deal.roi >= minRoi && deal.roi <= maxRoi;
 
-    emit(filtered);
+      if (riskMatch && industryMatch && roiMatch) {
+        filteredDeals.add(deal);
+      }
+    }
+
+    emit(filteredDeals);
   }
 
   void searchDeals(String query) {
-    final filtered = allDeals.where((deal) {
-      return deal.companyName
-          .toLowerCase()
-          .contains(query.toLowerCase());
-    }).toList();
+    List<DealModel> searchList = [];
 
-    emit(filtered);
+    for (var deal in deals) {
+      if (deal.companyName.toLowerCase().contains(query.toLowerCase())) {
+        searchList.add(deal);
+      }
+    }
+
+    emit(searchList);
   }
 
   void resetDeals() {
-    emit(allDeals);
+    emit(deals);
   }
 }

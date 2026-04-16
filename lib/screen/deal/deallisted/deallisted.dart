@@ -195,10 +195,10 @@ class _DeallistedState extends State<Deallisted> {
             TextButton(
               onPressed: () {
                 context.read<DealFilter>().filterDeals(
-                  risk: selectedRisk,
-                  industry: selectedIndustry,
-                  minRoi: minRoi,
-                  maxRoi: maxRoi,
+                  selectedRisk,
+                  selectedIndustry,
+                  minRoi,
+                  maxRoi,
                 );
 
                 Navigator.pop(context);
